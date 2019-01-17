@@ -9,6 +9,11 @@
     "lerna": "2.4.0"
   },
   "workspaces": [
-    "test-theia-widget", "browser-app", "electron-app"
-  ]
+    "test-theia-widget",
+    "browser-app",
+    "electron-app"
+  ],
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }

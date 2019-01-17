@@ -24,7 +24,8 @@
   },
   "theiaExtensions": [
     {
-      "frontend": "lib/browser/test-theia-widget-frontend-module"
+      "frontend": "lib/browser/test-theia-widget-frontend-module",
+      "backend": "lib/node/test-theia-widget-backend-module"
     }
   ]
 }

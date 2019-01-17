@@ -1,13 +1,15 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { MenuModelRegistry } from '@theia/core';
 import { TestTheiaWidgetWidget } from './test-theia-widget-widget';
 import { AbstractViewContribution } from '@theia/core/lib/browser';
 import { Command, CommandRegistry } from '@theia/core/lib/common/command';
+import { ProjectServerInterface, ProjectServerSymbol } from '../common/test-theia-protocol';
 
 export const TestTheiaWidgetCommand: Command = { id: 'test-theia-widget:command' };
 
 @injectable()
 export class TestTheiaWidgetContribution extends AbstractViewContribution<TestTheiaWidgetWidget> {
+
 
     /**
      * `AbstractViewContribution` handles the creation and registering
@@ -17,7 +19,10 @@ export class TestTheiaWidgetContribution extends AbstractViewContribution<TestTh
      * its location `area` (`main`, `left`, `right`, `bottom`), `mode`, and `ref`.
      * 
      */
-    constructor() {
+    constructor(
+        @inject(ProjectServerSymbol) private readonly projectServer: ProjectServerInterface
+    ) {
+
         super({
             widgetId: TestTheiaWidgetWidget.ID,
             widgetName: TestTheiaWidgetWidget.LABEL,
@@ -46,7 +51,10 @@ export class TestTheiaWidgetContribution extends AbstractViewContribution<TestTh
      */
     registerCommands(commands: CommandRegistry): void {
         commands.registerCommand(TestTheiaWidgetCommand, {
-            execute: () => super.openView({ activate: false, reveal: true })
+            execute: async () => {
+                console.log(await this.projectServer.getProjectInfo(""));
+                super.openView({ activate: false, reveal: true });
+            }
         });
     }
 
